@@ -1,16 +1,24 @@
 Package: omicsTools
-Title: What the Package Does (One Line, Title Case)
+Title: Set of classes, codes and scripts which I use for Omics data analysis
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Pawel",
+           family = "Kus",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "kpawel2210@gmail.com",
+           comment = c(ORCID = "0000-0002-4367-9821"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: The beer-ware license
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports: 
+    cli,
+    DESeq2,
+    dplyr,
+    ggplot2,
+    magrittr,
+    patchwork,
+    purrr,
+    tmod
