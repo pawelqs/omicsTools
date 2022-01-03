@@ -1,6 +1,6 @@
 Package: omicsTools
 Title: Set of classes, codes and scripts which I use for Omics data analysis
-Version: 0.0.0.9000
+Version: 0.0.0.9005
 Authors@R: 
     person(given = "Pawel",
            family = "Kus",

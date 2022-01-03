@@ -10,7 +10,8 @@ plot_volcano(
   lfc_col = "log2FoldChange",
   label_col = "mgi_symbol",
   p_adj_treshold = 0.05,
-  lfc_treshold = 1
+  lfc_treshold = 1,
+  labels = 20
 )
 }
 \description{

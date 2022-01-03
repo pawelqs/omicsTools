@@ -3,19 +3,19 @@
 #' @export
 plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
                          label_col = "mgi_symbol",
-                         p_adj_treshold = 0.05, lfc_treshold = 1) {
+                         p_adj_treshold = 0.05, lfc_treshold = 1,
+                         labels = 20) {
 
   df <- mutate(df,
-               significant = !!sym(p_adj_col) < p_adj_treshold,
-               change = case_when(
-                 significant & !!sym(lfc_col) > lfc_treshold ~ "up",
-                 significant & !!sym(lfc_col) < lfc_treshold ~ "down",
-                 TRUE ~ "not sig."
-               )
+    significant = !!sym(p_adj_col) < p_adj_treshold,
+    change = case_when(
+      significant & !!sym(lfc_col) > lfc_treshold ~ "up",
+      significant & !!sym(lfc_col) < -lfc_treshold ~ "down",
+      TRUE ~ "not sig."
+    )
   )
 
-  x_max <- df %>%
-    pull(!!sym(lfc_col)) %>%
+  x_max <- df[[lfc_col]] %>%
     abs() %>%
     max()
   x_max <- 1.05 * x_max
@@ -35,21 +35,27 @@ plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
       n = replace_na(n, 0),
       text = str_c(change, ": ", n))
 
-  n_up <- filter(numbers, change == "up")$n
-  n_down <- filter(numbers, change == "down")$n
-  n_changed <- n_up + n_down
-  label_n_up <- round((n_up * 60) / n_changed)
-  label_n_down <- round((n_down * 60) / n_changed)
+  labels <- if (is.numeric(labels)) {
+    n_up <- filter(numbers, change == "up")$n
+    n_down <- filter(numbers, change == "down")$n
+    n_changed <- n_up + n_down
+    label_n_up <- round((n_up * labels) / n_changed)
+    label_n_down <- round((n_down * labels) / n_changed)
 
-  labels_up <- df %>%
-    filter(change == "up") %>%
-    arrange(!!sym(p_adj_col)) %>%
-    slice(1:label_n_up)
-  labels_down <- df %>%
-    filter(change == "down") %>%
-    arrange(!!sym(p_adj_col)) %>%
-    slice(1:label_n_down)
-  labels <- bind_rows(labels_up, labels_down)
+    labels_up <- df %>%
+      filter(change == "up") %>%
+      arrange(!!sym(p_adj_col)) %>%
+      slice(1:label_n_up)
+    labels_down <- df %>%
+      filter(change == "down") %>%
+      arrange(!!sym(p_adj_col)) %>%
+      slice(1:label_n_down)
+    bind_rows(labels_up, labels_down)
+  } else if (is.character(labels)) {
+    filter(df, !!sym(label_col) %in% labels)
+  } else {
+    slice(df, 0)
+  }
 
   ggplot(df, aes(!!sym(lfc_col), -log10(!!sym(p_adj_col)), color = change)) +
     geom_point() +
@@ -58,7 +64,7 @@ plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
       breaks = c("down", "not sig.", "up")
     ) +
     geom_label_repel(aes(label = !!sym(label_col)),
-      data = labels, show.legend = FALSE
+      data = labels, show.legend = FALSE, max.overlaps = 30
     ) +
     xlim(-x_max, x_max) +
     geom_hline(yintercept = -log10(p_adj_treshold), linetype = "dashed") +
