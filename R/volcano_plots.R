@@ -39,8 +39,8 @@ plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
     n_up <- filter(numbers, change == "up")$n
     n_down <- filter(numbers, change == "down")$n
     n_changed <- n_up + n_down
-    label_n_up <- round((n_up * labels) / n_changed)
-    label_n_down <- round((n_down * labels) / n_changed)
+    label_n_up <- if (n_changed > 0) round((n_up * labels) / n_changed) else 0
+    label_n_down <- if (n_changed > 0) round((n_down * labels) / n_changed) else 0
 
     labels_up <- df %>%
       filter(change == "up") %>%
