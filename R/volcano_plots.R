@@ -1,5 +1,6 @@
 
 #' Plot Volcano plot
+#' @importFrom ggrepel geom_label_repel
 #' @export
 plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
                          label_col = "mgi_symbol",
