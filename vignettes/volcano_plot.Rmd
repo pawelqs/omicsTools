@@ -1,0 +1,25 @@
+---
+title: "volcano_plot"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{volcano_plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(omicsTools)
+```
+
+
+```{r, fig.width=10, fig.height=7}
+data("airway_deseq_res")
+plot_volcano(airway_deseq_res, label_col = "gene_id", labels = "ENSG00000179593")
+```

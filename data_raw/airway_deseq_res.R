@@ -1,13 +1,7 @@
----
-title: "R Notebook"
-output: html_notebook
----
 
-```{r}
 library(airway)
 library(DESeq2)
 library(tidyverse)
-library(omicsTools)
 
 data("airway")
 
@@ -19,12 +13,8 @@ dds <- dds[keep,]
 
 dds <- DESeq(dds)
 res <- results(dds)
-res <- res %>%
+airway_deseq_res <- res %>%
   as.data.frame() %>%
   rownames_to_column("gene_id")
-```
 
-```{r, fig.width=10, fig.height=7}
-plot_volcano(res, label_col = "gene_id", labels = "ENSG00000179593")
-```
-
+usethis::use_data(airway_deseq_res)

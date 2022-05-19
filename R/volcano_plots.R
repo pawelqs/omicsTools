@@ -1,12 +1,17 @@
 
 #' Plot Volcano plot
 #' @importFrom ggrepel geom_label_repel
+#' @import dplyr
+#' @import tibble
+#' @import ggplot2
+#' @import rlang
+#' @import tidyr
+#' @importFrom stringr str_c
 #' @export
 plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
                          label_col = "mgi_symbol",
                          p_adj_treshold = 0.05, lfc_treshold = 1,
                          labels_n = 20, labels = NULL) {
-
   df <- mutate(df,
     significant = !!sym(p_adj_col) < p_adj_treshold,
     change = case_when(
@@ -30,7 +35,7 @@ plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
 
   numbers <- df %>%
     group_by(change) %>%
-    summarise(n = n()) %>%
+    summarize(n = n()) %>%
     full_join(annot_positions) %>%
     mutate(
       n = replace_na(n, 0),
@@ -66,15 +71,17 @@ plot_volcano <- function(df, p_adj_col = "padj", lfc_col = "log2FoldChange",
       values = c("steelblue2", "gray", "orangered3"),
       breaks = c("down", "not sig.", "up")
     ) +
-    geom_label_repel(aes(label = !!sym(label_col)),
+    geom_label_repel(
+      aes(label = !!sym(label_col)),
       data = labels_data, show.legend = FALSE, max.overlaps = 30
     ) +
     xlim(-x_max, x_max) +
     geom_hline(yintercept = -log10(p_adj_treshold), linetype = "dashed") +
     geom_vline(xintercept = lfc_treshold, linetype = "dashed") +
     geom_vline(xintercept = -lfc_treshold, linetype = "dashed") +
-    geom_label(aes(x, y, vjust = y_just, hjust = x_just, label = text),
-               data = numbers, color = "black", size = 5
+    geom_label(
+      aes(x, y, vjust = y_just, hjust = x_just, label = text),
+      data = numbers, color = "black", size = 5
     ) +
     theme_minimal() +
     theme(legend.position = "bottom")
