@@ -11,7 +11,8 @@ plot_volcano(
   label_col = "mgi_symbol",
   p_adj_treshold = 0.05,
   lfc_treshold = 1,
-  labels = 20
+  labels_n = 20,
+  labels = NULL
 )
 }
 \description{
