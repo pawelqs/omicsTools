@@ -15,12 +15,19 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Imports: 
     cli,
+    ComplexHeatmap,
     DESeq2,
     dplyr,
+    GenomicRanges,
     ggplot2,
     magrittr,
     patchwork,
+    plyranges,
     purrr,
+    rlang,
+    stringr,
+    tibble,
+    tidyr,
     tmod
 Suggests: 
     knitr,

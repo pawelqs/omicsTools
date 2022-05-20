@@ -4,7 +4,7 @@
 #' @import dplyr
 #' @import tibble
 #' @import ggplot2
-#' @import rlang
+#' @importFrom rlang sym
 #' @import tidyr
 #' @importFrom stringr str_c
 #' @export
