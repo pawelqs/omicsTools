@@ -13,10 +13,13 @@ devtools::install_github("pawel125/omicsTools")
 
 ## Example
 
-Soom
+Soon
 
 ``` r
 library(omicsTools)
 ## basic example code
 ```
 
+<!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/pawel125/omicsTools/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pawel125/omicsTools?branch=master)
+<!-- badges: end -->
